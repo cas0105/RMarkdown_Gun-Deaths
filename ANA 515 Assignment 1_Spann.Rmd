@@ -1,0 +1,48 @@
+---
+title: "ANA 515 Assignment 1 - Spann"
+author: "Christopher Spann"
+date: "10/30/2021"
+output: 
+  html_document:
+   theme:
+      bootswatch: darkly
+---
+
+``` {r, include = FALSE, eval = TRUE}
+library(bslib)
+library(tidyverse)
+library(knitr)
+```
+
+```{r, include = FALSE}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+gun_deaths <- read_csv(url)
+glimpse(gun_deaths)
+```
+
+``` {r, include = FALSE}
+library(dplyr)
+youth <- filter(gun_deaths, age<=65)
+summary(youth)
+```
+
+` We have data about 100,798 individuals killed by guns. Only 15,687 are older than 65. The distribution of the remainder is shown below:`
+
+# Gun Deaths by Age
+```{r youth-dist, echo=FALSE}
+library(ggplot2)
+youth %>%
+  ggplot(aes(age))+ geom_freqpoly(binwidth=1)
+```
+
+# Gun Deaths by Race
+``` {r race-dist, echo=FALSE}
+youth %>%
+  ggplot(aes(fct_infreq(race) %>% fct_rev()))+
+  geom_bar() + coord_flip()+
+  labs(x= "Victim Race")
+```
+
+
+
+
